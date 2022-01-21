@@ -2,8 +2,12 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.test import APITestCase
+from faker import Faker
 
 from note.models import Note
+
+
+faker = Faker()
 
 
 def get_user_or_create(username='testuser', password='testpassword'):
@@ -12,6 +16,14 @@ def get_user_or_create(username='testuser', password='testpassword'):
         return user
     except User.DoesNotExist:
         return User.objects.create(username=username, password=password)
+
+
+def create_random_note(owner):
+    return Note.objects.create(
+        title=faker.name(), 
+        content=faker.name(),
+        owner=owner
+    )
 
 
 class NoteList(APITestCase):
@@ -29,27 +41,18 @@ class NoteList(APITestCase):
         user = get_user_or_create(username='testuser')
         another = get_user_or_create(username='another')
 
-        note1 = {'title': 'New Idea', 'content': 'Hello world'}
-        note2 = {'title': 'Old Idea', 'content': 'Hello HHHH'}
-
-        Note.objects.create(
-            title=note1['title'], 
-            content=note1['content'], 
-            owner=user
-            )
-        Note.objects.create(
-            title=note2['title'], 
-            content=note2['content'], 
-            owner=another
-            )
+        note1 = create_random_note(owner=user)
+        note2 = create_random_note(owner=another)
 
         self.client.force_authenticate(user=another)
         response = self.client.get(url)
         response_data = response.json()
-        print(response_data)
 
         self.assertEqual(1, len(response_data))
-        self.assertDictContainsSubset(note2, response_data[0])
+        self.assertDictContainsSubset(
+            {'title': note2.title, 'content': note2.content},
+            response_data[0]
+            )
 
 
     def test_create_note(self):
