@@ -73,3 +73,47 @@ class NoteList(APITestCase):
             self.assertIn(field, response_data)
         self.assertEqual(response_data['id'], Note.objects.first().id)
 
+
+class NoteDetail(APITestCase):
+
+    def test_get_self_note(self):
+        user = get_user_or_create()
+        note = create_random_note(owner=user)
+        url = reverse('note-detail', args=[note.id])
+
+        self.client.force_authenticate(user=user)
+        response = self.client.get(url)
+
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+
+    def test_get_other_note(self):
+        user = get_user_or_create(username='testuser')
+        another = get_user_or_create(username='another')
+        note = create_random_note(owner=user)
+        url = reverse('note-detail', args=[note.id])
+
+        self.client.force_authenticate(user=another)
+        response = self.client.get(url)
+
+        self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
+
+    def test_change_self_note(self):
+        user = get_user_or_create()
+        note = create_random_note(owner=user)
+        url = reverse('note-detail', args=[note.id])
+
+        self.client.force_authenticate(user=user)
+        response = self.client.put(url, {'title': faker.name()})
+
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+
+    def test_change_other_note(self):
+        user = get_user_or_create(username='testuser')
+        another = get_user_or_create(username='another')
+        note = create_random_note(owner=user)
+        url = reverse('note-detail', args=[note.id])
+
+        self.client.force_authenticate(user=another)
+        response = self.client.put(url, {'title': faker.name()})
+
+        self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
