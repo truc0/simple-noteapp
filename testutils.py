@@ -1,5 +1,6 @@
 from faker import Faker
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from note.models import Note
 
@@ -21,3 +22,7 @@ def create_random_note(owner):
         content=faker.name(),
         owner=owner
     )
+
+
+def set_allow_register(is_allowed):
+    settings.ALLOW_REGISTER = is_allowed
