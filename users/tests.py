@@ -31,5 +31,5 @@ class AuthTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
         with self.assertRaises(Token.DoesNotExist):
-            token = Token.objects.get(user=user)
+            Token.objects.get(user=user)
         
