@@ -1,29 +1,10 @@
 from django.urls import reverse
-from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.test import APITestCase
-from faker import Faker
 
 from note.models import Note
-
-
-faker = Faker()
-
-
-def get_user_or_create(username='testuser', password='testpassword'):
-    try:
-        user = User.objects.get(username=username, password=password)
-        return user
-    except User.DoesNotExist:
-        return User.objects.create(username=username, password=password)
-
-
-def create_random_note(owner):
-    return Note.objects.create(
-        title=faker.name(), 
-        content=faker.name(),
-        owner=owner
-    )
+from testutils import faker
+from testutils import get_user_or_create, create_random_note
 
 
 class NoteList(APITestCase):
@@ -34,7 +15,7 @@ class NoteList(APITestCase):
         url = reverse('note-list')
         data = {'title': 'New Idea'}
         response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_list_note(self):
         url = reverse('note-list')
