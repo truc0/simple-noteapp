@@ -1,7 +1,8 @@
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView 
 from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet 
 from rest_framework import status
 from django.conf import settings
 
@@ -44,21 +45,15 @@ class RegisterView(GenericAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ChangePasswordView(GenericAPIView):
+class ChangePasswordView(ViewSet):
 
     serializer_class = ChangePasswordSerializer
     permission_classes = [IsAuthenticated]
     
-    def generate_response(self, request):
+    def update(self, request):
         serializer = ChangePasswordSerializer(data=request.data, context={'user': request.user})
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def put(self, request):
-        return self.generate_response(request)
-
-    def patch(self, request):
-        return self.generate_response(request)

@@ -43,6 +43,11 @@ class AuthTest(APITestCase):
         with self.assertRaises(Token.DoesNotExist):
             Token.objects.get(user=user)
 
+    def test_unauthenticated_logout(self):
+        url = reverse('logout')
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
     def test_not_allow_register(self):
         set_allow_register(False)
         user_info = {
