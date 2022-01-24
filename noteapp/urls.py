@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
 from rest_framework.authtoken import views as TokenView
+from rest_framework.documentation import include_docs_urls
 
 from users.auth import LogoutView, RegisterView
 
@@ -15,3 +17,10 @@ urlpatterns = [
     path('', include('note.urls')),
     path('', include('users.urls')),
 ] + authpatterns
+
+debugpatterns = [
+    path('docs/', include_docs_urls(title='Note API', patterns=urlpatterns))
+]
+
+if settings.DEBUG:
+    urlpatterns += debugpatterns

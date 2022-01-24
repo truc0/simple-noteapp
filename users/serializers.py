@@ -12,6 +12,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'notes')
 
 
+# add a serializer for documentation
+class LogoutSerializer(serializers.Serializer):
+    ...
+
+
 class RegisterSerializer(serializers.Serializer):
     """
     Register serializer that provides password validation and 

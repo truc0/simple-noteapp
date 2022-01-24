@@ -5,10 +5,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
 
-from users.serializers import UserSerializer, RegisterSerializer
+from users.serializers import UserSerializer
+from users.serializers import RegisterSerializer
+from users.serializers import LogoutSerializer
 
 
 class LogoutView(GenericAPIView):
+
+    serializer_class = LogoutSerializer
     permission_classes = [IsAuthenticated]
 
     def delete(self, request):
@@ -21,6 +25,9 @@ class LogoutView(GenericAPIView):
 
 
 class RegisterView(GenericAPIView):
+
+    serializer_class = RegisterSerializer
+
     def post(self, request):
         """
         Create a new user with a token

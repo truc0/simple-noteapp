@@ -123,6 +123,26 @@ ln -s /etc/uwsgi/apps-available/noteapp.ini /etc/uwsgi/apps-enabled/
 Note that the commands above actually move the configuration to `/etc/uwsgi/apps-available` and create a symbol link to `/etc/uwsgi/apps-enabled`, you can directly copy the configuration to `/etc/uwsgi/apps-enabled` instead.
 
 
+## Development
+
+### Pre-Requirements
+
+- Python 3.7 or later
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.dev.txt
+```
+
+### Generate API document
+
+```bash
+python manage.py generateschema --file openapi.yml
+```
+
 ## API docs
 
-TBA
+API document is auto-generated in `openapi.yml`. The `django-rest-framework` also provides browable API.
+
+Note that the `BrowsableAPIRenderer` is disabled in production mode, set `DEBUG` to `True` to enable it.
