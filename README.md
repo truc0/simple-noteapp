@@ -26,6 +26,28 @@ Then changing directory into the source code folder by:
 cd simple-noteapp
 ```
 
+### Create a Virtual Environment (Optional)
+
+A virtual environment helps solving the conflict dependencies of different applications.
+
+You can create a virtual environment by the following command:
+
+```bash
+python3 -m venv <path>
+```
+
+Change `<path>` to your installation location. Example:
+
+```bash
+python3 -m venv /home/truc0/venv
+```
+
+Then activate this virtual environment by:
+
+```bash
+source <path>/bin/activate  # For Unix-like OS
+```
+
 ### Install Dependencies
 
 The dependencies are specified in `requirements.txt`. You can use the following command to install them:
@@ -46,6 +68,14 @@ Please make sure the `DEBUG` option in `config.py` is set to `False` in producti
 
 Then change other options such as `ALLOW_REGISTER`.
 
+#### Django Secret Key
+
+You can create a secret key by the following command:
+
+```bash
+python3 -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+```
+
 ### Configure uWSGI (Optional)
 
 It is recommended to use [uwsgi](https://uwsgi-docs.readthedocs.io/en/latest/) to deploy this app but it is not required.
@@ -62,7 +92,6 @@ cp uwsgi.example.ini uwsgi.ini
 - The `home` directory **must contains** your python executable file, you can delete this line if you are using the global one instead of a virutal environment
 - The `processes` option is the number of process allowed
 - The `socket` option is a combination of `IP` and `port`. You can use `http` option instead if you want uWSGI directly serve content by `HTTP` 
-- The `daemonize` option is the log of **uWSGI daemon**, **NOT THE APP**. Please make sure the user who starts `uWSGI` has permission in that directory
 
 ### Start the app
 
@@ -73,6 +102,25 @@ uwsgi --ini uwsgi.ini
 ```
 
 More info about deploying app with `uWSGI` can be found in [uWSGI docs](https://uwsgi-docs.readthedocs.io/en/latest/).
+
+#### Ubuntu & Debian Users Guide
+
+For Ubuntu & Debian users, there is another way for installing the app.
+
+First, install `uwsgi` and `uwsgi-plugin-python3` in system level:
+
+```bash
+sudo apt install uwsgi uwsgi-plugin-python3
+```
+
+Then, copy the configuration to `/etc/uwsgi/apps-enabled` by:
+
+```bash
+cp uwsgi.example.ini /etc/uwsgi/apps-available/noteapp.ini
+ln -s /etc/uwsgi/apps-available/noteapp.ini /etc/uwsgi/apps-enabled/
+```
+
+Note that the commands above actually move the configuration to `/etc/uwsgi/apps-available` and create a symbol link to `/etc/uwsgi/apps-enabled`, you can directly copy the configuration to `/etc/uwsgi/apps-enabled` instead.
 
 
 ## API docs

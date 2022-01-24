@@ -24,7 +24,7 @@ SECRET_KEY = config.SECRET_KEY
 
 DEBUG = getattr(config, 'DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = getattr(config, 'ALLOWED_HOSTS', [])
 
 
 # Application definition
@@ -126,9 +126,37 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DEFAULT_REST_RENDERER = ['rest_framework.renderers.JSONRenderer']
+if DEBUG:
+    DEFAULT_REST_RENDERER += ['rest_framework.renderers.BrowsableAPIRenderer']
+
 REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication'
-    ]
+    ],
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_REST_RENDERER
 }
+
+LOG_FILENAME = getattr(config, 'LOG_FILENAME', '/tmp/noteapp.log')
+
+DEFAULT_LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': LOG_FILENAME
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True
+        }
+    }
+}
+
+LOGGING = getattr(config, 'LOGGING', DEFAULT_LOGGING)
