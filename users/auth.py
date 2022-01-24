@@ -8,6 +8,7 @@ from django.conf import settings
 from users.serializers import UserSerializer
 from users.serializers import RegisterSerializer
 from users.serializers import LogoutSerializer
+from users.serializers import ChangePasswordSerializer
 
 
 class LogoutView(GenericAPIView):
@@ -41,3 +42,23 @@ class RegisterView(GenericAPIView):
             return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ChangePasswordView(GenericAPIView):
+
+    serializer_class = ChangePasswordSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def generate_response(self, request):
+        serializer = ChangePasswordSerializer(data=request.data, context={'user': request.user})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request):
+        return self.generate_response(request)
+
+    def patch(self, request):
+        return self.generate_response(request)

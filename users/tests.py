@@ -66,3 +66,25 @@ class AuthTest(APITestCase):
 
         user = User.objects.get(username=username)
         self.assertTrue(user.check_password(password))
+
+    def test_change_passwords(self):
+        url = reverse('change-password')
+        old_password = faker.password()
+        new_password = faker.password()
+        data = {'old_password': old_password, 'new_password': new_password}
+        user = get_user_or_create(password=old_password)
+        
+        self.client.force_authenticate(user=user)
+        response = self.client.put(url, data=data)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(user.check_password(old_password))
+        self.assertTrue(user.check_password(new_password))
+
+    def test_unauthenticated_change_password(self):
+        url = reverse('change-password')
+        old_password = faker.password()
+        new_password = faker.password()
+        data = {'old_password': old_password, 'new_password': new_password}
+
+        response = self.client.put(url, data=data)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
