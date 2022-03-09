@@ -89,7 +89,7 @@ cp uwsgi.example.ini uwsgi.ini
 ```
 
 - The `chdir` option can be the directory of the source code
-- The `home` directory **must contain your python executable file, you can delete this line if you are using the global one instead of a virtual environment
+- The `home` directory **must contain** your python executable file, you can delete this line if you are using the global one instead of a virtual environment
 - The `processes` option is the number of processes allowed
 - The `socket` option is a combination of `IP` and `port`. You can use `http` option instead if you want uWSGI directly serve content by `HTTP` 
 
