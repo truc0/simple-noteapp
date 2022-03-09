@@ -2,19 +2,19 @@
 
 > This app is still in development.
 
-This is a simple noteapp with basic CRUD function for notes.
+This is a simple noteapp with a basic CRUD function for notes.
 
-Users need to be authenticated before creating/editing/deleting their note.
+Users need to be authenticated before creating/editing/deleting their notes.
 
-It should be a good project for beginners of frontned development.
+It should be a good project for beginners of front-end development.
 
 ## Deploy
 
 ### Download the source code 
 
-You can download the zip file of the source code by clicking the green button `Code` in this page or in the releases, and select `Download ZIP`.
+You can download the zip file of the source code by clicking the green button `Code` on this page or in the releases, and select `Download ZIP`.
 
-You can also clone this project using `git` by the following comand:
+You can also clone this project using `git` by the following command:
 
 ```bash
 git clone https://github.com/truc0/simple-noteapp.git
@@ -28,7 +28,7 @@ cd simple-noteapp
 
 ### Create a Virtual Environment (Optional)
 
-A virtual environment helps solving the conflict dependencies of different applications.
+A virtual environment helps solve the conflict dependencies of different applications.
 
 You can create a virtual environment by the following command:
 
@@ -64,7 +64,7 @@ Copy `noteapp/config.example.py` to `noteapp/config.py` using the following comm
 cp noteapp/config.example.py noteapp/config.py
 ```
 
-Please make sure the `DEBUG` option in `config.py` is set to `False` in production environment.
+Please make sure the `DEBUG` option in `config.py` is set to `False` in the production environment.
 
 Then change other options such as `ALLOW_REGISTER`.
 
@@ -89,19 +89,19 @@ cp uwsgi.example.ini uwsgi.ini
 ```
 
 - The `chdir` option can be the directory of the source code
-- The `home` directory **must contains** your python executable file, you can delete this line if you are using the global one instead of a virutal environment
-- The `processes` option is the number of process allowed
+- The `home` directory **must contain your python executable file, you can delete this line if you are using the global one instead of a virtual environment
+- The `processes` option is the number of processes allowed
 - The `socket` option is a combination of `IP` and `port`. You can use `http` option instead if you want uWSGI directly serve content by `HTTP` 
 
 ### Start the app
 
-Using the following command to start the app:
+Use the following command to start the app:
 
 ```bash
 uwsgi --ini uwsgi.ini
 ```
 
-More info about deploying app with `uWSGI` can be found in [uWSGI docs](https://uwsgi-docs.readthedocs.io/en/latest/).
+More info about deploying the app with `uWSGI` can be found in [uWSGI docs](https://uwsgi-docs.readthedocs.io/en/latest/).
 
 #### Ubuntu & Debian Users Guide
 
@@ -143,6 +143,6 @@ python manage.py generateschema --file openapi.yml
 
 ## API docs
 
-API document is auto-generated in `openapi.yml`. The `django-rest-framework` also provides browable API.
+API document is auto-generated in `openapi.yml`. The `Django-rest-framework` also provides browsable API.
 
 Note that the `BrowsableAPIRenderer` is disabled in production mode, set `DEBUG` to `True` to enable it.
