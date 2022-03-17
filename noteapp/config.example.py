@@ -1,8 +1,25 @@
-ALLOW_REGISTER=False
-SECRET_KEY=''
-DEBUG=False
+### App Settings
+
+# production settings
 ALLOWED_HOSTS=[]
+DEBUG=True
+
+## app config
+
+# see https://djecrety.ir/
+SECRET_KEY=''  
+
+ALLOW_REGISTER=True
+
+
+### Log Settings
+
+# set LOGGING to None to disable logging
+LOGGING=None
+
 LOG_FILENAME=''
+
+# an example custom logging setting
 """
 LOGGING = {
     'version': 1,
@@ -23,3 +40,4 @@ LOGGING = {
     }
 }
 """
+
