@@ -18,7 +18,7 @@ authpatterns = [
     path('auth/register', RegisterView.as_view(), name='register'),
     path(
         'auth/change-password', 
-        ChangePasswordView.as_view({'patch': 'update', 'put': 'update'}), 
+        ChangePasswordView.as_view({'put': 'update'}), 
         name='change-password'
         ),
 ]
