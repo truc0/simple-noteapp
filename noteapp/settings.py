@@ -26,6 +26,8 @@ DEBUG = getattr(config, 'DEBUG', False)
 
 ALLOWED_HOSTS = getattr(config, 'ALLOWED_HOSTS', [])
 
+ALLOW_REGISTER = getattr(config, 'ALLOW_REGISTER', False)
+
 
 # Application definition
 
