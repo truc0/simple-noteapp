@@ -1,6 +1,6 @@
-from note.models import Note
-from note.serializers import NoteSerializer
-from note.permissions import IsOwner
+from .models import Note
+from .serializers import NoteSerializer
+from .permissions import IsOwner
 
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated

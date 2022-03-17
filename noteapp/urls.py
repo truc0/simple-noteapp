@@ -5,7 +5,7 @@ from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('note.urls')),
+    path('', include('notes.urls')),
     path('', include('users.urls')),
 ]
 

@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from note.models import Note
+from .models import Note
 from testutils import faker
 from testutils import get_user_or_create, create_random_note
 

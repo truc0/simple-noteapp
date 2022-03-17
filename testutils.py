@@ -2,7 +2,7 @@ from faker import Faker
 from django.contrib.auth.models import User
 from django.conf import settings
 
-from note.models import Note
+from notes.models import Note
 
 
 faker = Faker()

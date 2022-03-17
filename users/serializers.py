@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework.fields import CurrentUserDefault
 from rest_framework import serializers
 
-from note.models import Note
+from notes.models import Note
 
 
 class UserSerializer(serializers.ModelSerializer):
