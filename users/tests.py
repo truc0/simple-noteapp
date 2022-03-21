@@ -72,6 +72,22 @@ class AuthTest(APITestCase):
         user = User.objects.get(username=username)
         self.assertTrue(user.check_password(password))
 
+    def test_register_with_same_name_twice(self):
+        set_allow_register(True)
+        # basic info
+        username = faker.user_name()
+        password1 = faker.password()
+        password2 = faker.password()
+        # register
+        response = self.register(username=username, password=password1)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        # register with same username again
+        response = self.register(username=username, password=password2)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        # check if the password changed
+        user = User.objects.get(username=username)
+        self.assertTrue(user.check_password(password1))
+
     def test_change_passwords(self):
         url = reverse('change-password')
         old_password = faker.password()

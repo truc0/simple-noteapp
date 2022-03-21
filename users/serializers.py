@@ -26,6 +26,12 @@ class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=50)
     password = serializers.CharField(max_length=50)
 
+    def validate(self, data):
+        username = data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise serializers.ValidationError('Username already token')
+        return super().validate(data)
+
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
 
