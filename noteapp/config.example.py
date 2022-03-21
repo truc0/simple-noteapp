@@ -3,6 +3,8 @@
 # production settings
 ALLOWED_HOSTS=[]
 DEBUG=True
+# CORS_ALLOW_ALL_ORIGINS=False
+CORS_ALLOWED_ORIGINS=ALLOWED_HOSTS
 
 ## app config
 

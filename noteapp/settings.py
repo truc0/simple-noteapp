@@ -23,10 +23,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config.SECRET_KEY
 
 DEBUG = getattr(config, 'DEBUG', False)
-
 ALLOWED_HOSTS = getattr(config, 'ALLOWED_HOSTS', [])
-
 ALLOW_REGISTER = getattr(config, 'ALLOW_REGISTER', False)
+
+# CORS settings
+CORS_ALLOWED_ORIGINS = getattr(config, 'CORS_ALLOWED_ORIGINS', [])
+CORS_ALLOW_ALL_ORIGINS = getattr(config, 'CORS_ALLOW_ALL_ORIGINS', None)
+
+# set CORS_ALLOW_ALL_ORIGINS if DEBUG is enabled
+if DEBUG and CORS_ALLOW_ALL_ORIGINS is None:
+    CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Application definition
@@ -38,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     'notes',
@@ -46,6 +53,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
